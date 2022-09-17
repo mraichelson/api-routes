@@ -1,4 +1,7 @@
 export default defineEventHandler(async (event) => {
-  const header = getRequestHeader(event, "x-forwarded-for")
-  return { ip: header }
+  return {
+    ip: getRequestHeader(event, "x-nf-client-connection-ip")
+      ? getRequestHeader(event, "x-nf-client-connection-ip")
+      : getRequestHeader(event, "x-forwarded-for"),
+  }
 })
